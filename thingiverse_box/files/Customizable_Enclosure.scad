@@ -4,6 +4,7 @@ enclosure_inner_width = 40;
 enclosure_inner_depth = 30;
 
 enclosure_thickness = 2;
+port_recess_depth = 1;
 
 cover_thickness = 3;
 
@@ -13,19 +14,23 @@ print_part();
 
 // Positive vga_port dye. This object will need to be subtracted (e.g. via difference())
 // from something to make a hole.
-module vga_port(in_x, in_y, in_z) {
+module vga_port(in_x, in_y, in_z, shell_size) {
 	translate([in_x, in_y, in_z]) rotate([0, 90, 90]) union() {
+		// Recessed area inside the box around the port
+		translate([0, 0, shell_size/2 - port_recess_depth]) cube([14,32,shell_size], center=true);
 		// vga object taken from the WALLY_Customizer project
-		translate([0,-12.5,3]) cylinder(r=1.75, h=10, center = true);
-		translate([0,12.5,3]) cylinder(r=1.75, h=10, center = true);
-		difference() {
-				cube([10,19,13], center=true);
-				translate([-5,-9.2,1]) rotate([0,0,-35.6]) cube([4.4,2.4,15], center=true);
-				translate([.9,-11.2,0]) rotate([0,0,9.6]) cube([10,4.8,15], center=true);
-				translate([4.6,-8.5,0]) rotate([0,0,37.2]) cube([4.4,2.4,15], center=true);
-				translate([-5,9.2,1]) rotate([0,0,35.6]) cube([4.4,2.4,15], center=true);
-				translate([0.9,11.2,0]) rotate([0,0,-9.6]) cube([10,4.8,15], center=true);
-				translate([4.6,8.5,0]) rotate([0,0,-37.2]) cube([4.4,2.4,15], center=true);
+		union() {
+			translate([0,-12.5,3]) cylinder(r=1.75, h=10, center = true);
+			translate([0,12.5,3]) cylinder(r=1.75, h=10, center = true);
+			difference() {
+					cube([10,19,13], center=true);
+					translate([-5,-9.2,1]) rotate([0,0,-35.6]) cube([4.4,2.4,15], center=true);
+					translate([.9,-11.2,0]) rotate([0,0,9.6]) cube([10,4.8,15], center=true);
+					translate([4.6,-8.5,0]) rotate([0,0,37.2]) cube([4.4,2.4,15], center=true);
+					translate([-5,9.2,1]) rotate([0,0,35.6]) cube([4.4,2.4,15], center=true);
+					translate([0.9,11.2,0]) rotate([0,0,-9.6]) cube([10,4.8,15], center=true);
+					translate([4.6,8.5,0]) rotate([0,0,-37.2]) cube([4.4,2.4,15], center=true);
+			}
 		}
 	}
 }
@@ -100,7 +105,7 @@ difference() {
 		translate([+in_x/2-shell, in_y/2-shell, 0]) cylinder(r=shell,h=in_z+1, $fn=32);
 		translate([-in_x/2+shell, in_y/2-shell, 0]) cylinder(r=shell,h=in_z+1, $fn=32);
 	}
-	vga_port(0, in_y/2, in_z/2);
+	vga_port(0, in_y/2, in_z/2, shell);
 }
 
 // Beveled edge
