@@ -1,3 +1,6 @@
 [submodule "WALLY-Wall-Plate-Customizer"]
 	path = WALLY-Wall-Plate-Customizer
 	url = https://github.com/jlaustill/WALLY-Wall-Plate-Customizer/
+[submodule "92174cb1c98c1089347e"]
+	path = 92174cb1c98c1089347e
+	url = https://gist.github.com/groovenectar/92174cb1c98c1089347e/

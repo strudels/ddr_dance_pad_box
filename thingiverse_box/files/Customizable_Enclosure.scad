@@ -8,6 +8,8 @@ port_recess_depth = 1;
 
 cover_thickness = 3;
 
+use <../../92174cb1c98c1089347e/roundedcube.scad>;
+
 part = "enclosure"; // [enclosure:Enclosure, cover:Cover, both:Enclosure and Cover]
 
 print_part();
@@ -32,6 +34,13 @@ module vga_port(in_x, in_y, in_z, shell_size) {
 					translate([4.6,8.5,0]) rotate([0,0,-37.2]) cube([4.4,2.4,15], center=true);
 			}
 		}
+	}
+}
+
+module micro_usb_port(in_x, in_y, in_z, shell_size) {
+	translate([in_x, in_y, in_z]) union() {
+		translate([0, 0, shell_size/2 - port_recess_depth]) roundedcube([5,5,2], center=true);
+		cube([20,3,7], center=true);
 	}
 }
 
@@ -106,6 +115,7 @@ difference() {
 		translate([-in_x/2+shell, in_y/2-shell, 0]) cylinder(r=shell,h=in_z+1, $fn=32);
 	}
 	vga_port(0, in_y/2, in_z/2, shell);
+	micro_usb_port(0, -in_y/2, in_z/2, shell);
 }
 
 // Beveled edge
