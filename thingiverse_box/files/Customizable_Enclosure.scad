@@ -11,6 +11,25 @@ part = "enclosure"; // [enclosure:Enclosure, cover:Cover, both:Enclosure and Cov
 
 print_part();
 
+// Positive vga_port dye. This object will need to be subtracted (e.g. via difference())
+// from something to make a hole.
+module vga_port(in_x, in_y, in_z) {
+	translate([in_x, in_y, in_z]) rotate([0, 90, 90]) union() {
+		// vga object taken from the WALLY_Customizer project
+		translate([0,-12.5,3]) cylinder(r=1.75, h=10, center = true);
+		translate([0,12.5,3]) cylinder(r=1.75, h=10, center = true);
+		difference() {
+				cube([10,19,13], center=true);
+				translate([-5,-9.2,1]) rotate([0,0,-35.6]) cube([4.4,2.4,15], center=true);
+				translate([.9,-11.2,0]) rotate([0,0,9.6]) cube([10,4.8,15], center=true);
+				translate([4.6,-8.5,0]) rotate([0,0,37.2]) cube([4.4,2.4,15], center=true);
+				translate([-5,9.2,1]) rotate([0,0,35.6]) cube([4.4,2.4,15], center=true);
+				translate([0.9,11.2,0]) rotate([0,0,-9.6]) cube([10,4.8,15], center=true);
+				translate([4.6,8.5,0]) rotate([0,0,-37.2]) cube([4.4,2.4,15], center=true);
+		}
+	}
+}
+
 module print_part() {
 	if (part == "enclosure") {
 		box2(enclosure_inner_length,enclosure_inner_width,enclosure_inner_depth,enclosure_thickness,enclosure_thickness/2-0.10,cover_thickness);
@@ -65,6 +84,7 @@ module bottom(in_x, in_y, in_z, shell) {
 
 module sides(in_x, in_y, in_z, shell) {
 translate([0,0,shell])
+// Walls
 difference() {
 
 	hull() {
@@ -80,8 +100,10 @@ difference() {
 		translate([+in_x/2-shell, in_y/2-shell, 0]) cylinder(r=shell,h=in_z+1, $fn=32);
 		translate([-in_x/2+shell, in_y/2-shell, 0]) cylinder(r=shell,h=in_z+1, $fn=32);
 	}
+	vga_port(0, 20, 12);
 }
 
+// Beveled edge
 intersection() {
 	translate([-in_x/2, -in_y/2, shell]) cube([in_x, in_y, in_z+2]);
 
