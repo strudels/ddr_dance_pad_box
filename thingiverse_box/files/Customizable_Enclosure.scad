@@ -100,7 +100,7 @@ difference() {
 		translate([+in_x/2-shell, in_y/2-shell, 0]) cylinder(r=shell,h=in_z+1, $fn=32);
 		translate([-in_x/2+shell, in_y/2-shell, 0]) cylinder(r=shell,h=in_z+1, $fn=32);
 	}
-	vga_port(0, 20, 12);
+	vga_port(0, in_y/2, in_z/2);
 }
 
 // Beveled edge
