@@ -39,6 +39,8 @@ module vga_port(in_x, in_y, in_z, shell_size) {
 
 module micro_usb_port(in_x, in_y, in_z, shell_size) {
 	translate([in_x, in_y, in_z]) union() {
+		translate([-6,0,0]) rotate([90,0,0]) cylinder(r=1.75, h=10, center = true);
+		translate([6,0,0]) rotate([90,0,0]) cylinder(r=1.75, h=10, center = true);
 		translate([0, 0, shell_size/2 - port_recess_depth]) roundedcube([5,5,2], center=true);
 		cube([20,3,7], center=true);
 	}
