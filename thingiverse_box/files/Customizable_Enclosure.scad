@@ -1,10 +1,9 @@
 
-enclosure_inner_length = 60;
-enclosure_inner_width = 40;
-enclosure_inner_depth = 30;
+enclosure_inner_length = 120;
+enclosure_inner_width = 70;
+enclosure_inner_depth = 25;
 
 enclosure_thickness = 2;
-port_recess_depth = 1;
 
 cover_thickness = 3;
 
@@ -16,14 +15,14 @@ print_part();
 
 // Positive vga_port dye. This object will need to be subtracted (e.g. via difference())
 // from something to make a hole.
-module vga_port(in_x, in_y, in_z, shell_size) {
+module vga_port(in_x, in_y, in_z, shell_size, port_shell_size) {
 	translate([in_x, in_y, in_z]) rotate([0, 90, 90]) union() {
 		// Recessed area inside the box around the port
-		translate([0, 0, shell_size/2 - port_recess_depth]) cube([14,32,shell_size], center=true);
+		translate([0, 0, shell_size/2 - port_shell_size]) cube([14,32,shell_size], center=true);
 		// vga object taken from the WALLY_Customizer project
 		union() {
-			translate([0,-12.5,3]) cylinder(r=1.75, h=10, center = true);
-			translate([0,12.5,3]) cylinder(r=1.75, h=10, center = true);
+			translate([0,-12.5,3]) cylinder(r=1.75, h=10, center = true, $fn=20);
+			translate([0,12.5,3]) cylinder(r=1.75, h=10, center = true, $fn=20);
 			difference() {
 					cube([10,19,13], center=true);
 					translate([-5,-9.2,1]) rotate([0,0,-35.6]) cube([4.4,2.4,15], center=true);
@@ -37,12 +36,12 @@ module vga_port(in_x, in_y, in_z, shell_size) {
 	}
 }
 
-module micro_usb_port(in_x, in_y, in_z, shell_size) {
+module micro_usb_port(in_x, in_y, in_z, shell_size, port_shell_size) {
 	translate([in_x, in_y, in_z]) union() {
-		translate([-6,0,0]) rotate([90,0,0]) cylinder(r=1.75, h=10, center = true);
-		translate([6,0,0]) rotate([90,0,0]) cylinder(r=1.75, h=10, center = true);
-		translate([0, 0, shell_size/2 - port_recess_depth]) roundedcube([5,5,2], center=true);
-		cube([20,3,7], center=true);
+		translate([-8.5,0,0]) rotate([90,0,0]) cylinder(r=1.75, h=10, center = true, $fn=20);
+		translate([8.5,0,0]) rotate([90,0,0]) cylinder(r=1.75, h=10, center = true, $fn=20);
+		translate([0, 0, shell_size/2 - port_shell_size]) roundedcube([10,5,5], center=true);
+		cube([26,3,12], center=true);
 	}
 }
 
@@ -116,8 +115,8 @@ difference() {
 		translate([+in_x/2-shell, in_y/2-shell, 0]) cylinder(r=shell,h=in_z+1, $fn=32);
 		translate([-in_x/2+shell, in_y/2-shell, 0]) cylinder(r=shell,h=in_z+1, $fn=32);
 	}
-	vga_port(0, in_y/2, in_z/2, shell);
-	micro_usb_port(0, -in_y/2, in_z/2, shell);
+	vga_port(0, in_y/2, in_z/2, shell, 1);
+	micro_usb_port(0, -in_y/2, in_z/2, shell, 1);
 }
 
 // Beveled edge
