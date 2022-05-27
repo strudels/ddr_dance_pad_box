@@ -47,7 +47,11 @@ module micro_usb_port(in_x, in_y, in_z, shell_size, port_shell_size) {
 
 module print_part() {
 	if (part == "enclosure") {
-		box2(enclosure_inner_length,enclosure_inner_width,enclosure_inner_depth,enclosure_thickness,enclosure_thickness/2-0.10,cover_thickness);
+		difference() {
+			box2(enclosure_inner_length,enclosure_inner_width,enclosure_inner_depth,enclosure_thickness,enclosure_thickness/2-0.10,cover_thickness);
+			ddr_logo(enclosure_inner_length);
+		}
+
 	} else if (part == "cover") {
 		lid2(enclosure_inner_length,enclosure_inner_width,enclosure_inner_depth,enclosure_thickness,enclosure_thickness/2+0.10,cover_thickness);
 	} else {
@@ -203,6 +207,18 @@ module box2(in_x, in_y, in_z, shell, top_lip, top_thickness) {
 		screws(in_x, in_y, in_z, shell);
 	}
 	lid_top_lip2(in_x, in_y, in_z, shell, top_lip, top_thickness);
+}
+
+module ddr_logo(in_x) {
+	// These are rough eyeball'd measurements
+	_ddr_logo_length = 144;  //millimeters
+	_ddr_logo_width = 36;  // millimeters
+	_logo_relative_scale = 0.9;  // percent relative to box size
+
+	_logo_target_length = in_x * _logo_relative_scale;
+	_logo_absolute_scale = _logo_target_length / _ddr_logo_length;
+	scale([_logo_absolute_scale, _logo_absolute_scale, _logo_absolute_scale]) rotate([0, 180, 180])
+		import("../../ddr_logo.svg", center=true);
 }
 
 
