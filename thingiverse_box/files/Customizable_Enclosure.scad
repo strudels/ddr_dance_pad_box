@@ -217,8 +217,10 @@ module ddr_logo(in_x) {
 
 	_logo_target_length = in_x * _logo_relative_scale;
 	_logo_absolute_scale = _logo_target_length / _ddr_logo_length;
-	scale([_logo_absolute_scale, _logo_absolute_scale, _logo_absolute_scale]) rotate([0, 180, 180])
-		import("../../ddr_logo.svg", center=true);
+	linear_extrude(height=1, center=true) {
+		scale([_logo_absolute_scale, _logo_absolute_scale, _logo_absolute_scale]) rotate([0, 180, 180])
+			import("../../ddr_logo.svg", center=true);
+	}
 }
 
 
